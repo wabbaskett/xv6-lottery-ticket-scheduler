@@ -23,7 +23,8 @@ int sys_unlink(void);
 int sys_wait(void);
 int sys_write(void);
 int sys_uptime(void);
+/* The following code is added by Wesley Baskett | wlb210002 */
 int sys_settickets(int);
 int getpinfo(struct pstat *);
-
+/* End of code added */
 #endif // _SYSFUNC_H_

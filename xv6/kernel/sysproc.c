@@ -88,6 +88,9 @@ sys_uptime(void)
   release(&tickslock);
   return xticks;
 }
+/* The following code is added by Wesley Baskett | wlb210002
+ * TO BE IMPLEMENTED! DOES NOT WORK
+ * */
 
 int settickets(int numtickets){
   return 0;
@@ -96,3 +99,4 @@ int settickets(int numtickets){
 int getpinfo(struct pstat *){
   return 0;
 }
+/* End of code added */

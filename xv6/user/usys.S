@@ -29,5 +29,7 @@ SYSCALL(getpid)
 SYSCALL(sbrk)
 SYSCALL(sleep)
 SYSCALL(uptime)
+/* The following code is added by Wesley Baskett | wlb210002 */
 SYSCALL(settickets)
 SYSCALL(getpinfo)
+/* End of code added */
