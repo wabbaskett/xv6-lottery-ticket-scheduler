@@ -80,6 +80,8 @@ argstr(int n, char **pp)
 // syscall function declarations moved to sysfunc.h so compiler
 // can catch definitions that don't match
 
+extern int sys_rng(void);
+
 // array of function pointers to handlers for all the syscalls
 static int (*syscalls[])(void) = {
 [SYS_chdir]   sys_chdir,
@@ -104,9 +106,14 @@ static int (*syscalls[])(void) = {
 [SYS_write]   sys_write,
 [SYS_uptime]  sys_uptime,
 /* The following code is added by Wesley Baskett | wlb210002 */
-[SYS_settickets] sys_settickets,
-[SYS_getpinfo] sys_getpinfo,
+//[SYS_settickets] sys_settickets,
+//[SYS_getpinfo] sys_getpinfo,
 /* End of code added */
+/*The following code is added by Robert Reece | rwr230001 */
+/* this code adds the random syscall to the kernel */
+[SYS_rng] sys_rng,
+/* End of code added */
+
 };
 
 // Called on a syscall trap. Checks that the syscall number (passed via eax)

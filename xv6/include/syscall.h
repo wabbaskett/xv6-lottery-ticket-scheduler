@@ -27,4 +27,9 @@
 #define SYS_settickets 22
 #define SYS_getpinfo 23
 /* End of code added */
+/* the following code is added by Robert Reece | rwr230001 */
+/* this code defines a new system call number for generating random numbers */
+#define SYS_rng	   24
+/* End of code added */
+
 #endif // _SYSCALL_H_

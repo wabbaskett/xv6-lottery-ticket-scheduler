@@ -25,6 +25,12 @@ int sys_write(void);
 int sys_uptime(void);
 /* The following code is added by Wesley Baskett | wlb210002 */
 int sys_settickets(int);
-int getpinfo(struct pstat *);
+//int getpinfo(struct pstat *);
 /* End of code added */
+
+/* The following code is added by Robert Reece | rwr230001 */
+/* handeler for random syscall */
+//int sys_rng(void);
+/* End of code added */
+
 #endif // _SYSFUNC_H_

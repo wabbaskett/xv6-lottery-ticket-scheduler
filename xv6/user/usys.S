@@ -33,3 +33,7 @@ SYSCALL(uptime)
 SYSCALL(settickets)
 SYSCALL(getpinfo)
 /* End of code added */
+/* The following code is added by Robert Reece | rwr230001 */
+/* connects random syscall from user to kernel level */
+SYSCALL(rng)
+/* End of code added */

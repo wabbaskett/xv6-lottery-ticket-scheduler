@@ -27,7 +27,14 @@ int sleep(int);
 int uptime(void);
 /* The following code is added by Wesley Baskett | wlb210002 */
 int settickets(int);
-int getpinfo(struct pstat *);
+//int getpinfo(struct pstat *);
+/* End of code added */
+
+/* The following code is added by Robert Reece | rwr230001 */
+/* This code adds the random syscall to the user level */
+
+int rng(int);
+
 /* End of code added */
 
 // user library functions (ulib.c)

@@ -96,7 +96,28 @@ int settickets(int numtickets){
   return 0;
 }
 
-int getpinfo(struct pstat *){
+/*int getpinfo(struct pstat *){
   return 0;
+}*/
+
+/* End of code added */
+
+/* The following code is added bt Robert Reece | rwr230001 */
+/* This code implments the random syscall to generate random numbers */
+/* function uses the xorshift algorithm */
+/* return an integer from 0 to r-1 */
+int sys_rng(void)
+{
+  int seed = sys_uptime();
+  int range;
+  if(argint(0,&range) < 0){return -1;} // get range from args return an error if none given
+  if(range <= 0){return -1;} //return an error if given an invalid range
+
+  //constants used for xor shift from wikipedia xorshift article
+  seed ^= seed << 13;
+  seed ^= seed >> 17;
+  seed ^= seed << 5;
+  return seed % range;
 }
+
 /* End of code added */
