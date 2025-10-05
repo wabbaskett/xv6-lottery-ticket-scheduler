@@ -5,6 +5,9 @@
 #include "mmu.h"
 #include "proc.h"
 #include "sysfunc.h"
+/* The following code is added by Wesley Baskett | wlb210002 */
+#include "pstat.h"
+/* End of code added */
 
 int
 sys_fork(void)
@@ -92,7 +95,7 @@ sys_uptime(void)
  * TO BE IMPLEMENTED! DOES NOT WORK
  * */
 
-int settickets(void){
+int sys_settickets(void){
   int n; // int to put the the amount of tickets passed
   
   //if we fail to get an int parameter, return -1 
@@ -107,7 +110,7 @@ int settickets(void){
   return 0;
 }
 
-int getpinfo(void){
+int sys_getpinfo(void){
   struct pstat pst;
 
   // If we fail to find the pointer passed as a parameter the syscall fails
