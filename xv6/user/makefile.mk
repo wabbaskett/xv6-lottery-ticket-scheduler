@@ -17,6 +17,7 @@ USER_PROGS := \
 	usertests\
 	wc\
 	zombie\
+	rngtest\
 	default_tickets\
 	getpinfo\
 	high_tickets\

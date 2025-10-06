@@ -9,6 +9,12 @@
 #include "pstat.h"
 /* End of code added */
 
+
+/* code added by Robert Reece | rwr230001 */
+/*function prototype for random generator */
+int random(int range);
+/* end of code added */
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -70,6 +76,12 @@ found:
   p->context = (struct context*)sp;
   memset(p->context, 0, sizeof *p->context);
   p->context->eip = (uint)forkret;
+
+/* The following code is added by Robert Reece | rwr230001 */
+/* initializes the ticket amount and tick count for a new process */
+  p->tickets = 1;
+  p->ticks = 0;
+/* end of code added */
 
   return p;
 }
@@ -286,26 +298,62 @@ scheduler(void)
     // Enable interrupts on this processor.
     sti();
 
+/* The following code is modified by Robert Reece | rwr230001 */
+/* Replaces old scheduler with lottery system */
+
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
-    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
-      if(p->state != RUNNABLE)
-        continue;
 
-      // Switch to chosen process.  It is the process's job
-      // to release ptable.lock and then reacquire it
-      // before jumping back to us.
-      proc = p;
+    int ticketTotal = 0;
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) //calculate amount of tickets
+    {
+      if(p->state == RUNNABLE){ticketTotal += p->tickets;}
+    }
+    if(ticketTotal == 0) //if no process is ready then skip remaining steps
+    {
+    release(&ptable.lock);
+    continue;
+    }
+    
+    int winner = random(ticketTotal);
+    if(winner == 100){winner -=1;}
+
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) //find lottery winner
+    {
+      if(p->state != RUNNABLE){continue;}
+      winner -= p->tickets;
+      if(winner <= 0)				//winner declared when no tickets remain
+      {
+
+      proc = p;					//switch context and start new process
       switchuvm(p);
       p->state = RUNNING;
-      swtch(&cpu->scheduler, proc->context);
+      p->ticks += 1;				//update tick for new process
+      swtch(&cpu->scheduler,proc->context);
       switchkvm();
       // Process is done running for now.
       // It should have changed its p->state before coming back.
       proc = 0;
+      break;
+      }
+    
     }
+
+    /*Old scheduler logic */
+/*    
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+        if(p->state != RUNNABLE) { continue; }
+	proc = p;
+        switchuvm(p);
+        p->state = RUNNING;
+	swtch(&cpu->scheduler, proc->context);
+	switchkvm();
+	proc = 0;
+	}
+*/
     release(&ptable.lock);
 
+/*End of code modified */
   }
 }
 
@@ -467,4 +515,17 @@ procdump(void)
   }
 }
 
+/* code added by Robert Reece | rwr230001 */
+/* get a random number for scheduling */
+static int seed = 123456789;
+int random(int range)
+{
+  if(range <= 0){return -1;} //return an error if given an invalid range
 
+  //constants used for xor shift from wikipedia xorshift article
+  seed ^= seed << 13;
+  seed ^= seed >> 17;
+  seed ^= seed << 5;
+  return seed % range;
+}
+/* end of code added */

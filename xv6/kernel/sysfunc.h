@@ -27,4 +27,10 @@ int sys_uptime(void);
 int sys_settickets(void);
 int sys_getpinfo(void);
 /* End of code added */
+
+/* The following code is added by Robert Reece | rwr230001 */
+/* handeler for random syscall */
+//int sys_rng(void);
+/* End of code added */
+
 #endif // _SYSFUNC_H_
