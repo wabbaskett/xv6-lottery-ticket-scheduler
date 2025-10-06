@@ -76,6 +76,7 @@ struct proc {
   char name[16];               // Process name (debugging)
   /* The following code is added by Wesley Baskett | wlb210002 */
   int tickets;		       // Number of tickets assigned to this process
+  int ticks;		       // Number of ticks the process has accumulated
   /* End of code added */
 };
 
