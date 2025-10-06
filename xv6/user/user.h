@@ -2,6 +2,9 @@
 #define _USER_H_
 
 struct stat;
+/* The following code is added by Wesley Baskett | wlb210002 */
+struct pstat;
+/* End of code added */
 
 // system calls
 int fork(void);

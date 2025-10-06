@@ -5,6 +5,9 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+/* The following code is added by Wesley Baskett | wlb210002 */
+#include "pstat.h"
+/* End of code added */
 
 
 /* code added by Robert Reece | rwr230001 */
@@ -112,6 +115,28 @@ userinit(void)
   p->state = RUNNABLE;
   release(&ptable.lock);
 }
+
+/* The following code is added by Wesley Baskett | wlb210002 */
+int getpinfo(struct pstat *pst){
+  //Loop over the process table, for every slot that is in use, grab the process and put it into pstat
+  int i;
+  for(i = 0; i < NPROC; i++){
+    if(ptable.proc[i].state != UNUSED){
+      pst->inuse[i] = 1;
+      pst->tickets[i] = ptable.proc[i].tickets;
+      pst->pid[i] = ptable.proc[i].pid;
+      pst->ticks[i] = ptable.proc[i].ticks;
+    }else{
+      pst->inuse[i] = 0;
+      pst->tickets[i] = 0;
+      pst->pid[i] = 0;
+      pst->ticks[i] = 0;
+    }
+  }  
+  return 0;
+}
+/* End of code added */
+
 
 // Grow current process's memory by n bytes.
 // Return 0 on success, -1 on failure.
@@ -306,7 +331,8 @@ scheduler(void)
       p->ticks += 1;				//update tick for new process
       swtch(&cpu->scheduler,proc->context);
       switchkvm();
-      
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
       proc = 0;
       break;
       }

@@ -9,6 +9,9 @@ struct pipe;
 struct proc;
 struct spinlock;
 struct stat;
+/* The following code is added by Wesley Baskett | wlb210002 */
+struct pstat;
+/* End of code added */
 
 // bio.c
 void            binit(void);
@@ -101,6 +104,9 @@ int             fork(void);
 int             growproc(int);
 int             kill(int);
 void            pinit(void);
+/* The following code is added by Wesley Baskett | wlb210002 */
+int		getpinfo(struct pstat*);
+/* End of code added */
 void            procdump(void);
 void            scheduler(void) __attribute__((noreturn));
 void            sched(void);
