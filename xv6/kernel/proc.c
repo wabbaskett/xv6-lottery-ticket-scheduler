@@ -181,7 +181,10 @@ fork(void)
   np->sz = proc->sz;
   np->parent = proc;
   *np->tf = *proc->tf;
-
+  /* The following code is added by Wesley Baskett | wlb210002 */
+  /* Setting child's ticket # to the same as the parent */
+  np->tickets = proc->tickets;
+  /* End of code added */
   // Clear %eax so that fork returns 0 in the child.
   np->tf->eax = 0;
 
@@ -316,7 +319,10 @@ scheduler(void)
     }
     
     int winner = random(ticketTotal);
-    if(winner == 100){winner -=1;}
+    /* The following code is added by Wesley Baskett | wlb210002 */
+    /* This flips the sign of the winning ticket in case the rng value passes a negative # */
+    if(winner < 0){winner *= -1;}
+    /* End of code added */
 
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) //find lottery winner
     {
