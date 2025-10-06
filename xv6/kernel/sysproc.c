@@ -5,6 +5,9 @@
 #include "mmu.h"
 #include "proc.h"
 #include "sysfunc.h"
+/* The following code is added by Wesley Baskett | wlb210002 */
+#include "pstat.h"
+/* End of code added */
 
 int
 sys_fork(void)
@@ -89,20 +92,41 @@ sys_uptime(void)
   return xticks;
 }
 /* The following code is added by Wesley Baskett | wlb210002
- * TO BE IMPLEMENTED! DOES NOT WORK
+ * System calls to set tickets for the current process and to get statistics
+ * for all current processes in ptable
  * */
 
-int settickets(int numtickets){
+int sys_settickets(void){
+  int n; // int to put the the amount of tickets passed
+  
+  //if we fail to get an int parameter, return -1 
+  if (argint(0, &n) < 0)
+ 	return -1;
+
+  //if the the passed ticket num is less than 1, syscall failed 
+  if (n < 1)
+  	return -1;
+  //Set the current procs tickets
+  proc->tickets = n;
   return 0;
 }
 
-/*int getpinfo(struct pstat *){
-  return 0;
-}*/
+int sys_getpinfo(void){
+  char *addr;
+  struct pstat *p;
+
+  // If we fail to find the pointer passed as a parameter the syscall fails
+  if (argptr(0, &addr, sizeof(*p)) < 0)
+    return -1;
+  // If the pointer is set to 0x0 (NULL), reject
+  if (addr == 0)
+    return -1;
+  return getpinfo((struct pstat *)addr);
+}
 
 /* End of code added */
 
-/* The following code is added bt Robert Reece | rwr230001 */
+/* The following code is added by Robert Reece | rwr230001 */
 /* This code implments the random syscall to generate random numbers */
 /* function uses the xorshift algorithm */
 /* return an integer from 0 to r-1 */

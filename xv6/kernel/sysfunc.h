@@ -24,8 +24,8 @@ int sys_wait(void);
 int sys_write(void);
 int sys_uptime(void);
 /* The following code is added by Wesley Baskett | wlb210002 */
-int sys_settickets(int);
-//int getpinfo(struct pstat *);
+int sys_settickets(void);
+int sys_getpinfo(void);
 /* End of code added */
 
 /* The following code is added by Robert Reece | rwr230001 */

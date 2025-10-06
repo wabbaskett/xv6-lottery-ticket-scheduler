@@ -106,8 +106,8 @@ static int (*syscalls[])(void) = {
 [SYS_write]   sys_write,
 [SYS_uptime]  sys_uptime,
 /* The following code is added by Wesley Baskett | wlb210002 */
-//[SYS_settickets] sys_settickets,
-//[SYS_getpinfo] sys_getpinfo,
+[SYS_settickets] sys_settickets,
+[SYS_getpinfo] sys_getpinfo,
 /* End of code added */
 /*The following code is added by Robert Reece | rwr230001 */
 /* this code adds the random syscall to the kernel */
