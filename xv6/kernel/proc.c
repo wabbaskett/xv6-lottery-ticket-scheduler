@@ -323,6 +323,11 @@ scheduler(void)
     /* This flips the sign of the winning ticket in case the rng value passes a negative # */
     if(winner < 0){winner *= -1;}
     /* End of code added */
+	/*The following code is added by Robert Reece | rwr230001 */
+    /* fix for range of winning ticket (previously was 0->r-1) (now is 1->r) */
+    winner += 1;
+    /* End of Code added */
+
 
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++) //find lottery winner
     {
